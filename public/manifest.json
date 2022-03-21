@@ -1,0 +1,23 @@
+{
+  "short_name": "Keza",
+  "name": "Keza Africa",
+  "description": "Stop paying so much to buy a new phone. Try Keza and conveniently pay in monthly installments.",
+  "icons": [
+    {
+      "src": "assets/images/Brown-favicon.svg",
+      "sizes": "184x184",
+      "type": "image/svg",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/Brown-favicon@2x.png",
+      "sizes": "368x368",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#aa4428",
+  "background_color": "#ffffff"
+}
