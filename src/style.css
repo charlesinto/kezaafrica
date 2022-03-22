@@ -59,12 +59,14 @@ header.has-navbar .header-nav {
 @media screen and (max-width: 540px) {
   .header .logo {
     flex: 0.4;
+    margin-left: 0;
   }
 }
 @media screen and (min-width: 541px) and (max-width: 991px) {
   .header .logo,
   header.has-navbar .logo {
     flex: 0.2;
+    margin-left: 0;
   }
 }
 
@@ -167,6 +169,9 @@ section {
     padding-top: 90px;
     height: auto;
     padding: 120px 0 60px 0;
+  }
+  .hero .col-lg-6:first-child {
+    margin-left: 0;
   }
   .hero h1 {
     font-size: 32px;
