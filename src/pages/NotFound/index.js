@@ -10,7 +10,7 @@ const NotFound = () => {
               <div>
                 <img
                   className="img-fluid w-75"
-                  src="assets/images/404.svg"
+                  src={`${process.env.PUBLIC_URL}/assets/images/404.svg`}
                   alt="404 not found"
                 />
                 <h1 className="mt-5">

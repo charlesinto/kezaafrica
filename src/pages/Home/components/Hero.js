@@ -28,7 +28,7 @@ const Hero = () => {
           </div>
           <div className="col-lg-6 hero-img">
             <img
-              src="assets/images/unnamed__1_-removebg.png"
+              src="assets/images/5585049-removebg.png"
               style={{ cursor: "pointer" }}
               alt=""
               className="img-fluid"

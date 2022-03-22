@@ -361,27 +361,29 @@ const UpdateForm = ({ report, setInfo, setLoading }) => {
               : "row align-items-center"
           }`}
         >
-          {step > 1 && (
-            <div className="col-lg-6 mb-3">
-              <button
-                style={{
-                  background: "white",
-                  color: "var(--keza-brown)",
-                }}
-                className="btn btn-get-started fw-bold"
-                onClick={() => previousStep()}
-              >
-                Previous
-              </button>
-            </div>
-          )}
-          <div className={`${step < 2 ? "col-lg-12" : "col-lg-6"} mb-3`}>
+          <div
+            className={`${step < 2 ? "col-lg-12" : "col-lg-6"} order-lg-2 mb-3`}
+          >
             <button
               className="btn btn-primary btn-get-started fw-bold"
               onClick={() => (step > 5 ? handleSubmit() : nextStep())}
             >
               {step > 5 ? "Submit" : "Next"}
             </button>
+            {step > 1 && (
+              <div className="col-lg-6 mb-3">
+                <button
+                  style={{
+                    background: "white",
+                    color: "var(--keza-brown)",
+                  }}
+                  className="btn btn-get-started fw-bold"
+                  onClick={() => previousStep()}
+                >
+                  Previous
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

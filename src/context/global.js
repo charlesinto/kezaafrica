@@ -13,20 +13,20 @@ export default function GlobalWrapper({ children }) {
     process.env.NODE_ENV === "production"
       ? "https://kezaafrica.herokuapp.com/v1"
       : "http://localhost:5000/v1";
-  const key = process.env.MONO_PUBLIC_KEY || "test_pk_pFD3ozQvEqK5KgBBWrjm";
+  const key = process.env.REACT_APP_MONO_PUBLIC_KEY;
   const conveneNumber = Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "NGN",
   }).format;
   const reportAction = (category, action) => {
-    Analytics.event({
-      category,
-      action,
-    });
+    if (process.env.NODE_ENV === "production") {
+      Analytics.event({
+        category,
+        action,
+      });
+    }
   };
-  const APP_SECRET =
-    process.env.PAYSTACK_APP_SECRET ||
-    "sk_test_8a0695a67eaaa2dfe8761d81cf0a1acd7122dd8a";
+  const APP_SECRET = process.env.REACT_APP_PAYSTACK_APP_SECRET;
   return (
     <Provider store={store}>
       <GlobalContext.Provider

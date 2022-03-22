@@ -10,8 +10,10 @@ const Wrapper = ({ children }) => {
   const payload = localStorage.getItem(ACCESS_TOKEN);
   const token = payload ? JSON.parse(payload) : null;
   React.useEffect(() => {
-    Analytics.initialize(process.env.TRACKING_CODE || "UA-219262505-1");
-    Analytics.pageview(`${location.pathname}${location.search}`);
+    if (process.env.NODE_ENV === "production") {
+      Analytics.initialize(process.env.REACT_APP_TRACKING_CODE);
+      Analytics.pageview(`${location.pathname}${location.search}`);
+    }
   }, [location]);
   React.useEffect(() => {
     if (token) {

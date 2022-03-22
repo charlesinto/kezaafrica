@@ -45,7 +45,8 @@ a {
 }
 
 .header .logo {
-  flex: 0.25;
+  flex: 0.3;
+  margin-left: -4%;
 }
 
 header.has-navbar .logo {
@@ -115,6 +116,9 @@ section {
   flex-wrap: nowrap;
   overflow-x: hidden;
 }
+.hero .col-lg-6:first-child {
+  margin-left: -4%;
+}
 .hero h1 {
   font-size: 48px;
   font-weight: 700;
@@ -151,6 +155,12 @@ section {
 .getstarted:hover i {
   transform: scale(130%) translateX(-5px);
 }
+.hero-img {
+  margin-top: 5%;
+}
+.hero-img img {
+  transform: scale(140%);
+}
 @media (max-width: 991px) {
   .hero {
     text-align: center;
@@ -171,7 +181,8 @@ section {
     margin-top: -10%;
   }
   .hero-img img {
-    height: 70%;
+    /* height: 70%; */
+    transform: none;
   }
   .hero .col-lg-6:nth-child(1) {
     order: 2 !important;
@@ -230,7 +241,7 @@ section {
 @media (max-width: 991px) {
   .hero .col-lg-6:first-child {
     margin-bottom: 1em;
-    margin-top: -30%;
+    /* margin-top: -30%; */
   }
   .hero {
     text-align: center;
