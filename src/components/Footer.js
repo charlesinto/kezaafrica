@@ -8,6 +8,17 @@ const Footer = () => {
         <p className="fs-5 text-white">Contact Us</p>
         <div className="footer-social-links d-flex align-items-center">
           <a
+            onClick={() =>
+              reportAction("Social", "Clicked the WhatsApp Button")
+            }
+            target="_blank"
+            rel="noreferrer"
+            href="https://api.whatsapp.com/send?phone=2349161112671"
+            className="social-link"
+          >
+            <i className="bi bi-whatsapp"></i>
+          </a>
+          <a
             onClick={() => reportAction("Social", "Clicked the Twitter Button")}
             target="_blank"
             rel="noreferrer"

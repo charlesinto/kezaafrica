@@ -24,7 +24,7 @@ function HowItWorks() {
               className="box"
             >
               <img
-                src="assets/images/5614049-removebg.png"
+                src={`${process.env.PUBLIC_URL}/assets/images/5614049-removebg.png`}
                 className="img-fluid"
                 alt="Pick a Phone"
               />
@@ -48,7 +48,7 @@ function HowItWorks() {
               className="box"
             >
               <img
-                src="assets/images/5601723-removebg.png"
+                src={`${process.env.PUBLIC_URL}/assets/images/5601723-removebg.png`}
                 className="img-fluid"
                 alt="Choose your Payment"
               />
@@ -69,7 +69,7 @@ function HowItWorks() {
               className="box"
             >
               <img
-                src="assets/images/5591060-removebg.png"
+                src={`${process.env.PUBLIC_URL}/assets/images/5591060-removebg.png`}
                 className="img-fluid"
                 alt="Make your First Installment"
               />

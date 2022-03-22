@@ -1,7 +1,7 @@
 import "./style.css";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Chat, Header, Footer, Wrapper } from "./components";
+import { Header, Footer, Wrapper } from "./components";
 import { Home, Application, NotFound, Dashboard, Auth, Update } from "./pages";
 const App = () => {
   return (
@@ -20,7 +20,6 @@ const App = () => {
           <Route path="/login" exact component={Auth} />
           <Route component={NotFound} />
         </Switch>
-        {window.location.pathname === "/" && <Chat />}
         <Footer />
       </Wrapper>
     </Router>

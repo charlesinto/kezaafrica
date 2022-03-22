@@ -97,6 +97,14 @@ const Success = ({ form, setLoading }) => {
             <a
               target="_blank"
               rel="noreferrer"
+              href="https://api.whatsapp.com/send?phone=2349161112671"
+              className="social-link"
+            >
+              <i className="bi bi-whatsapp"></i>
+            </a>
+            <a
+              target="_blank"
+              rel="noreferrer"
               href="https://twitter.com/KezaHQ"
               className="social-link success"
             >

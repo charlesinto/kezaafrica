@@ -9,7 +9,7 @@ const Faq = () => {
         <div className="row align-items-center">
           <div className="col-lg-4">
             <img
-              src="assets/images/unnamed-removebg.png"
+              src={`${process.env.PUBLIC_URL}/assets/images/unnamed-removebg.png`}
               alt=""
               className="img-fluid"
             />

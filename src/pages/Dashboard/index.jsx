@@ -108,7 +108,7 @@ const Dashboard = () => {
                   <>
                     <div className="d-flex justify-content-center">
                       <img
-                        src="assets/images/3024051-removebg.png"
+                        src={`${process.env.PUBLIC_URL}/assets/images/3024051-removebg.png`}
                         className="img-fluid"
                         alt=""
                       />
