@@ -11,11 +11,15 @@ const Input = ({
   handleShowPassword,
   autoComplete,
   variant,
+  className,
+  error,
 }) => (
   <Grid item xs={12} sm={half ? 6 : 12}>
     <TextField
       autoComplete={autoComplete}
       name={name}
+      error={error}
+      className={className}
       onChange={handleChange}
       variant={variant || "standard"}
       required

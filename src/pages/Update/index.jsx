@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UpdateForm from "./Form";
-import { Breadcrumb, Progress } from "../../components";
+import { Breadcrumb, Progress, PrivateRoute } from "../../components";
 import { useModal } from "../../hooks";
 import { useHistory } from "react-router-dom";
 const report = {
@@ -46,22 +46,24 @@ const Update = () => {
     }
   }, [info, history, setModal]);
   return (
-    <main>
-      <Breadcrumb
-        parent={{ name: "Dashboard", link: "/dashboard" }}
-        child={{ name: "Update Application" }}
-      />
-      <section id="application">
-        <div className="container">
-          <UpdateForm
-            report={report}
-            setLoading={setLoading}
-            setInfo={setInfo}
-          />
-        </div>
-      </section>
-      {loading && <Progress />}
-    </main>
+    <PrivateRoute>
+      <main>
+        <Breadcrumb
+          parent={{ name: "Dashboard", link: "/dashboard" }}
+          child={{ name: "Update Application" }}
+        />
+        <section id="application">
+          <div className="container">
+            <UpdateForm
+              report={report}
+              setLoading={setLoading}
+              setInfo={setInfo}
+            />
+          </div>
+        </section>
+        {loading && <Progress />}
+      </main>
+    </PrivateRoute>
   );
 };
 

@@ -11,6 +11,7 @@ import {
 import { Alert, Breadcrumb, Input, Progress } from "../../components";
 import { loginUser } from "../../data/actions/auth";
 import useStyles from "./styles";
+import { Link } from "react-router-dom";
 const Auth = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [info, setInfo] = useState(null);
@@ -51,7 +52,7 @@ const Auth = () => {
                 />
               )}
               <form className={classes.form} onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} className="mb-3">
                   <Input
                     name="username"
                     label="Email Address"
@@ -67,6 +68,9 @@ const Auth = () => {
                     handleShowPassword={handleShowPassword}
                   />
                 </Grid>
+                <Link to="/forgot-password" className="fs-5 text-primary">
+                  Forgot your Password?
+                </Link>
                 <Button
                   type="submit"
                   fullWidth

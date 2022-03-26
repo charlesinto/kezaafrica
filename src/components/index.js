@@ -9,3 +9,4 @@ export { default as PrivateRoute } from "./PrivateRoute";
 export { default as Order } from "./Order";
 export { default as Input } from "./Input";
 export { default as Progress } from "./Progress";
+export { default as OtpInput } from "./OtpInput";

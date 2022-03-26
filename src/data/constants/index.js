@@ -1,5 +1,6 @@
 export const ACCESS_TOKEN = "keza_access_token";
 export const BROWSER_ID = "keza_browser_id";
+export const PASSWORD_IDENTIFIER = "keza_forgot_password_identifier";
 export const states = [
   "Abia",
   "Adamawa",

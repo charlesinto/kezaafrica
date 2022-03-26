@@ -80,6 +80,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
       const increment = rate * init;
       const amount = parseFloat((increment + init) * months);
       const dividend = parseFloat(amount / months);
+      const extra = 4000;
       setForm((form) => {
         return {
           ...form,
@@ -87,7 +88,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
             ...form.report,
             meta: {
               ...form.report.meta,
-              payment,
+              payment: payment + extra,
               amount: parseFloat(amount),
               dividend: parseFloat(dividend),
             },

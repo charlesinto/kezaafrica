@@ -2,7 +2,16 @@ import "./style.css";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Header, Footer, Wrapper } from "./components";
-import { Home, Application, NotFound, Dashboard, Auth, Update } from "./pages";
+import {
+  Home,
+  Application,
+  NotFound,
+  Dashboard,
+  Auth,
+  Update,
+  Forgot,
+  Reset,
+} from "./pages";
 const App = () => {
   return (
     <Router>
@@ -18,6 +27,8 @@ const App = () => {
             component={Update}
           />
           <Route path="/login" exact component={Auth} />
+          <Route path="/forgot-password" exact component={Forgot} />
+          <Route path="/reset-password" exact component={Reset} />
           <Route component={NotFound} />
         </Switch>
         <Footer />

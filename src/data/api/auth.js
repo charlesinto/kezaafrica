@@ -23,3 +23,18 @@ export const loginUser = async (form) => {
 export const logoutUser = async () => {
   return api.delete("/logout-user");
 };
+
+export const forgotPassword = async (identifier) => {
+  return api.post("/forgot-password", {
+    identifier,
+    agent: window.navigator.userAgent,
+  });
+};
+
+export const verifyOtp = async (otp) => {
+  return api.post("/verify-otp", { otp });
+};
+
+export const resetPassword = async (form) => {
+  return api.post("/reset-password", form);
+};
