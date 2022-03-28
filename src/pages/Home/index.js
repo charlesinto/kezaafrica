@@ -1,6 +1,12 @@
-import React, { Suspense } from "react";
-import { Faq, Hero, HowItWorks, Calculator } from "./components";
+import React, { Suspense, lazy } from "react";
+// import { Faq, Hero, HowItWorks, Calculator } from "./components";
 import { CircularProgress } from "@material-ui/core";
+
+const Faq = lazy(() => import("./components/Faq"));
+const Hero = lazy(() => import("./components/Hero"));
+const HowItWorks = lazy(() => import("./components/HowItWorks"));
+const Calculator = lazy(() => import("./components/Calculator"));
+
 const FallBack = () => (
   <main className="my-auto">
     <CircularProgress />
