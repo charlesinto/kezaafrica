@@ -611,6 +611,7 @@ section {
 .MuiLinearProgress-barColorPrimary {
   background-color: var(--keza-brown) !important;
 }
+
 .MuiCircularProgress-colorPrimary {
   color: var(--keza-brown) !important;
 }
@@ -869,8 +870,12 @@ section {
   color: var(--keza-brown);
 }
 
-.MuiInput-underline:after {
+.MuiInput-underline::after {
   border-color: var(--keza-brown) !important;
+}
+
+.MuiInputBase-root.Mui-error::after {
+  border-color: #f44336 !important;
 }
 
 .btn-get-started.previous-btn {
@@ -988,7 +993,12 @@ section {
   color: var(--keza-brown);
   position: relative;
 }
-.swal2-input:focus {
-  box-shadow: inset 0 1px 1px rgb(0 0 0 / 6%),
-    0 0 0 3px var(--keza-primary-light) !important;
+.swal2-input:focus,
+.form-control:focus {
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 6%), 0 0 0 3px var(--keza-progress) !important;
+  border-color: var(--keza-progress);
+}
+
+.MuiFormControl-root.err label {
+  color: #f44336 !important;
 }

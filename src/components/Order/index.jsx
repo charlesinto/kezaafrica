@@ -1,13 +1,28 @@
-import "./style.css";
 import React, { useState, useEffect, useMemo } from "react";
 import { Tooltip } from "@material-ui/core";
 import { useGlobalContext } from "../../context/global";
 import { useDispatch, useSelector } from "react-redux";
 import MonoConnect from "@mono.co/connect.js";
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { connectMono, deleteApplication } from "../../data/actions/user";
 import { useDashboardcontext } from "../../pages/Dashboard";
 import { useModal } from "../../hooks";
 import Plan from "./Plan";
+import "./style.css";
+
+const init = {
+  public_key: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY,
+  tx_ref: Date.now(),
+  amount: 0,
+  currency: "NGN",
+  payment_options: "card,mobilemoney,ussd",
+  customer: { phonenumber: "", name: "", email: "" },
+  customizations: {
+    title: "Keza Africa",
+    description: "Enabling Smartphone Financing for Africa.",
+  },
+};
+
 const Order = ({
   id,
   createdAt,
@@ -21,12 +36,14 @@ const Order = ({
   paid,
   balance,
   errorStatus,
+  errorMessage,
 }) => {
   const dispatch = useDispatch();
   const user = useSelector(({ user }) => user);
   const { setPrompt } = useModal();
   const { conveneNumber, key } = useGlobalContext();
   const { setLoading, setInfo, setIsLoaded } = useDashboardcontext();
+  const [config, setConfig] = useState(init);
   const [status, setStatus] = useState(0);
   const [error, setError] = useState(0);
   const mono = useMemo(() => {
@@ -76,6 +93,21 @@ const Order = ({
       });
     }
   }, [current, errorStatus]);
+  useEffect(() => {
+    if (user) {
+      setConfig((config) => {
+        return {
+          ...config,
+          customer: {
+            phonenumber: user?.phone?.number,
+            email: user?.email,
+            name: `${user?.name?.firstName} ${user?.name?.lastName}`,
+          },
+        };
+      });
+    }
+  }, [user]);
+  const handleFlutterwave = useFlutterwave(config);
   const handleDeleteApplication = () => {
     setPrompt({
       title: "Are you sure you want to do this?",
@@ -88,6 +120,21 @@ const Order = ({
       },
     });
   };
+  const handlePayment = () => {
+    handleFlutterwave({
+      callback: () => {
+        closePaymentModal();
+      },
+      onClose: () => {
+        closePaymentModal();
+      },
+    });
+  };
+  useEffect(() => {
+    if (config.amount) {
+      handlePayment();
+    }
+  }, [config]);
   return (
     <div className="card w-100">
       <div
@@ -115,7 +162,7 @@ const Order = ({
               arrow
               title={`${
                 error === 1
-                  ? "Your application has been rejected"
+                  ? errorMessage
                   : status < 2
                   ? "Your application has not yet been approved"
                   : "Your application has been approved"
@@ -133,7 +180,7 @@ const Order = ({
               arrow
               title={`${
                 error === 2
-                  ? "You haven't paid your down payment."
+                  ? errorMessage
                   : status < 3
                   ? "Pay required down payment"
                   : "You have paid the required down payment"
@@ -151,7 +198,7 @@ const Order = ({
               arrow
               title={`${
                 error === 3
-                  ? "Your application was not able to be processed"
+                  ? errorMessage
                   : status < 4
                   ? "Your order is being processed"
                   : "Your order has been processed"
@@ -169,7 +216,7 @@ const Order = ({
               arrow
               title={`${
                 error === 4
-                  ? "Your application could not be shipped"
+                  ? errorMessage
                   : status < 5
                   ? "Your order has not yet been shipped"
                   : "Your order has been shipped"
@@ -187,7 +234,7 @@ const Order = ({
               arrow
               title={`${
                 error === 5
-                  ? "You haven't confirmed your order."
+                  ? errorMessage
                   : status < 6
                   ? "Confirm your order."
                   : "Your order has been confirmed."
@@ -275,6 +322,23 @@ const Order = ({
             onClick={() => mono.open()}
           >
             Connect With Mono
+          </button>
+        </div>
+      )}
+      {!isNotConnected && status === 2 && (
+        <div className="d-flex justify-content-center">
+          <button
+            className="btn btn-primary btn-get-started"
+            onClick={() =>
+              setConfig((config) => {
+                return {
+                  ...config,
+                  amount: parseFloat(down),
+                };
+              })
+            }
+          >
+            Pay Down Payment
           </button>
         </div>
       )}
