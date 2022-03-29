@@ -120,21 +120,21 @@ const Order = ({
       },
     });
   };
-  const handlePayment = () => {
-    handleFlutterwave({
-      callback: () => {
-        closePaymentModal();
-      },
-      onClose: () => {
-        closePaymentModal();
-      },
-    });
-  };
   useEffect(() => {
+    const handlePayment = () => {
+      handleFlutterwave({
+        callback: () => {
+          closePaymentModal();
+        },
+        onClose: () => {
+          closePaymentModal();
+        },
+      });
+    };
     if (config.amount) {
       handlePayment();
     }
-  }, [config]);
+  }, [config, handleFlutterwave]);
   return (
     <div className="card w-100">
       <div
