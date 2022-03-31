@@ -25,8 +25,12 @@ export const initiateApplication = async (form) => {
   return api.post("/initiate-application", form);
 };
 
-export const uploadApplicationFile = async (form) => {
-  return api.post("/upload-application-file", form);
+export const uploadApplicationFile = async (form, setLoadingValue) => {
+  return api.post("/upload-application-file", form, {
+    onUploadProgress: (event) => {
+      setLoadingValue(Math.round((event.loaded / event.total) * 100));
+    },
+  });
 };
 
 export const createApplication = async (form) => {

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { MenuItem, TextField } from "@material-ui/core";
 import { states } from "../../../data/constants";
 import { useSelector } from "react-redux";
-const Personal = ({ form, setForm, setProgress }) => {
+const Personal = ({ form, setForm, setProgress, setDisabled }) => {
   const user = useSelector(({ user }) => user);
   const handleChange = ({ target: { name, value } }) => {
     setForm((details) => {
@@ -19,12 +19,18 @@ const Personal = ({ form, setForm, setProgress }) => {
     setProgress((progress) => {
       return {
         ...progress,
-        phone: 100,
         personal: current,
         total,
       };
     });
   };
+  useEffect(() => {
+    if (Object.values(form.personal).some((x) => x === "")) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [form, setDisabled]);
   useEffect(() => {
     if (user) {
       setForm((form) => {
@@ -61,7 +67,7 @@ const Personal = ({ form, setForm, setProgress }) => {
               value={form.personal.firstName}
               onChange={(e) => {
                 handleChange(e);
-                handleProgress(16, 18.25);
+                handleProgress(16, 3);
               }}
             />
           </div>
@@ -77,7 +83,7 @@ const Personal = ({ form, setForm, setProgress }) => {
               value={form.personal.lastName}
               onChange={(e) => {
                 handleChange(e);
-                handleProgress(32, 21);
+                handleProgress(32, 6);
               }}
             />
           </div>
@@ -96,7 +102,7 @@ const Personal = ({ form, setForm, setProgress }) => {
               value={form.personal.phone}
               onChange={(e) => {
                 handleChange(e);
-                handleProgress(48, 23.75);
+                handleProgress(48, 9);
               }}
             />
           </div>
@@ -108,7 +114,7 @@ const Personal = ({ form, setForm, setProgress }) => {
               value={form.personal.email}
               onChange={(e) => {
                 handleChange(e);
-                handleProgress(64, 26.5);
+                handleProgress(64, 13);
               }}
               type="text"
               label="E-Mail Address"
@@ -136,7 +142,7 @@ const Personal = ({ form, setForm, setProgress }) => {
                   },
                 };
                 handleChange(event);
-                handleProgress(80, 29.25);
+                handleProgress(80, 16);
               }}
             >
               {states
@@ -171,7 +177,7 @@ const Personal = ({ form, setForm, setProgress }) => {
               value={form.personal.address}
               onChange={(e) => {
                 handleChange(e);
-                handleProgress(100, 32.75);
+                handleProgress(100, 20);
               }}
             />
           </div>

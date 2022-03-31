@@ -4,11 +4,21 @@ import { Autocomplete } from "@material-ui/lab";
 import { useGlobalContext } from "../../../context/global";
 import { useModal } from "../../../hooks";
 import axios from "axios";
-const Phone = ({ form, setInfo, setForm, setProgress }) => {
+const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
   const { APP_URI, conveneNumber } = useGlobalContext();
   const [products, setProducts] = useState([]);
   const [width, setWidth] = useState("");
   const { setToast } = useModal();
+  const handleProgress = (current, total) => {
+    setProgress((progress) => {
+      return {
+        ...progress,
+        personal: 100,
+        phone: current,
+        total,
+      };
+    });
+  };
   useLayoutEffect(() => {
     axios
       .get(`${APP_URI}/products/without-images`)
@@ -32,6 +42,16 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
     return () =>
       window.addEventListener("resize", () => setWidth(window.innerWidth));
   }, []);
+  useEffect(() => {
+    if (
+      Object.values(form.report.product).some((x) => x === "") &&
+      Object.values(form.report.meta).some((x) => x === "")
+    ) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [form, setDisabled]);
   const handleChange = ({ target: { name, value }, attributes: { id } }) => {
     setForm((form) => {
       // eslint-disable-next-line
@@ -130,13 +150,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                       value: "old",
                     },
                   };
-                  setProgress((progress) => {
-                    return {
-                      ...progress,
-                      phone: 20,
-                      total: 3.34,
-                    };
-                  });
+                  handleProgress(20, 24);
                   handleChange(event);
                 }}
                 value="old"
@@ -156,13 +170,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                       value: "new",
                     },
                   };
-                  setProgress((progress) => {
-                    return {
-                      ...progress,
-                      phone: 20,
-                      total: 3.34,
-                    };
-                  });
+                  handleProgress(20, 24);
                   handleChange(event);
                 }}
                 value="new"
@@ -209,13 +217,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                     value,
                   },
                 };
-                setProgress((progress) => {
-                  return {
-                    ...progress,
-                    phone: 40,
-                    total: 6.68,
-                  };
-                });
+                handleProgress(40, 28);
                 setToast({
                   position: isMobile ? "center" : "top",
                   title:
@@ -283,13 +285,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                           value: parseFloat(e.target.textContent.split(" ")[0]),
                         },
                       };
-                      setProgress((progress) => {
-                        return {
-                          ...progress,
-                          phone: 60,
-                          total: 10.02,
-                        };
-                      });
+                      handleProgress(60, 32);
                       handleChange(event);
                     }}
                     value={int}
@@ -328,13 +324,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                           value: e.target.textContent,
                         },
                       };
-                      setProgress((progress) => {
-                        return {
-                          ...progress,
-                          phone: 80,
-                          total: 13.36,
-                        };
-                      });
+                      handleProgress(80, 36);
                       handleChange(event);
                     }}
                     value={c}
@@ -374,13 +364,7 @@ const Phone = ({ form, setInfo, setForm, setProgress }) => {
                             value: e.target.textContent,
                           },
                         };
-                        setProgress((progress) => {
-                          return {
-                            ...progress,
-                            phone: 100,
-                            total: 15.5,
-                          };
-                        });
+                        handleProgress(100, 40);
                         setToast({
                           position: isMobile ? "center" : "top",
                           title:

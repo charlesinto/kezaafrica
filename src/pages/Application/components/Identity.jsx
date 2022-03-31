@@ -36,6 +36,8 @@ const Identity = ({
   application,
   setInfo,
   setLoading,
+  setDisabled,
+  setLoadingValue,
 }) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
@@ -85,13 +87,21 @@ const Identity = ({
       const form = new FormData();
       form.set("file", file, file.name);
       form.set("id", application.id);
-      dispatch(uploadApplicationFile(form, proceedAction, setInfo, setLoading));
+      dispatch(
+        uploadApplicationFile(
+          form,
+          proceedAction,
+          setInfo,
+          setLoading,
+          setLoadingValue
+        )
+      );
     }
     // eslint-disable-next-line
   }, [file, dispatch]);
 
   useEffect(() => {
-    if (application.identity.id) {
+    if (application && application.identity.id) {
       dataURLtoFile(application.identity.id);
     }
   }, [application]);
@@ -99,6 +109,16 @@ const Identity = ({
     const bvnInput = window.document.querySelector("#bvn");
     bvnInput.setAttribute("maxlength", "10");
   }, []);
+  useEffect(() => {
+    if (
+      (!file || !newFile) &&
+      Object.values(form.identity).some((x) => x === "")
+    ) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [form, setDisabled, file, newFile]);
   return (
     <div data-aos="fade-in" className="mt-5">
       <div className="row align-items-center">
@@ -112,7 +132,7 @@ const Identity = ({
               label="Valid Identity Type"
               value={form.identity.type}
               onChange={(e) => {
-                handleProgress(33, 52.75);
+                handleProgress(33, 66);
                 handleChange(e);
               }}
             >
@@ -134,7 +154,7 @@ const Identity = ({
               label="Bank Verification Number"
               value={form.identity.bvn}
               onChange={(e) => {
-                handleProgress(66, 57.75);
+                handleProgress(66, 72);
                 handleChange(e);
               }}
             />
@@ -157,7 +177,7 @@ const Identity = ({
           >
             <span
               onClick={() => {
-                handleProgress(100, 63.75);
+                handleProgress(100, 80);
                 inputRef.current.click();
               }}
             >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BROWSER_ID } from "../../../data/constants";
 import {
@@ -9,7 +9,6 @@ import {
   Phone,
   Identity,
   Employment,
-  Financial,
 } from "../components";
 import {
   getApplication,
@@ -53,16 +52,17 @@ const init = {
     linkedin: "",
   },
 };
-const ApplicationForm = ({ report, setInfo, setLoading }) => {
+const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
   const { conveneNumber } = useGlobalContext();
   const dispatch = useDispatch();
+  const navbar = useRef();
   const application = useSelector(({ application }) => application);
+  const [disabled, setDisabled] = useState(false);
   const [form, setForm] = useState({
     ...init,
     report,
   });
   const [step, setStep] = useState(1);
-  const [width, setWidth] = useState(0);
   const [success, setSuccess] = useState(false);
   const [isExecuted, setIsExecuted] = useState(false);
   const [progress, setProgress] = useState({
@@ -74,7 +74,7 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
     financial: 0,
     total: 0,
   });
-  const isMobile = width <= 991;
+  const isMobile = window.innerWidth <= 991;
   const nextStep = () => {
     setStep((step) => {
       if (step === 1 && !isExecuted) {
@@ -84,65 +84,83 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
       return step + 1;
     });
     if (isExecuted) {
-      dispatch(
-        updateApplication({
-          ...form,
-          id: application !== null ? application.id : "",
-        })
-      );
+      if (application && application.id) {
+        dispatch(
+          updateApplication({
+            ...form,
+            id: application.id,
+          })
+        );
+      }
     }
   };
   const handleSubmit = () => {
     setLoading(true);
-    dispatch(
-      updateApplication(
-        {
-          ...form,
-          id: application !== null ? application.id : "",
-        },
-        setLoading
-      )
-    );
-    dispatch(
-      createApplication(
-        { ...form, id: application !== null ? application.id : "" },
-        setLoading,
-        setSuccess,
-        setInfo
-      )
-    );
+    if (application && application.id) {
+      dispatch(
+        updateApplication(
+          {
+            ...form,
+            id: application.id,
+          },
+          setLoading
+        )
+      );
+      dispatch(
+        createApplication(
+          { ...form, id: application !== null ? application.id : "" },
+          setLoading,
+          setSuccess,
+          setInfo
+        )
+      );
+    }
   };
   const previousStep = () => {
     setStep((step) => step - 1);
-    dispatch(
-      updateApplication({
-        ...form,
-        id: application !== null ? application.id : "",
-      })
-    );
+    if (application && application.id) {
+      dispatch(
+        updateApplication({
+          ...form,
+          id: application.id,
+        })
+      );
+    }
   };
   const returnStep = () => {
     switch (step) {
       case 1:
         return (
+          <Personal
+            setDisabled={setDisabled}
+            setProgress={setProgress}
+            form={form}
+            setForm={setForm}
+          />
+        );
+      case 2:
+        return (
           <Phone
+            setDisabled={setDisabled}
             setProgress={setProgress}
             form={form}
             setInfo={setInfo}
             setForm={setForm}
           />
         );
-      case 2:
-        return (
-          <Personal setProgress={setProgress} form={form} setForm={setForm} />
-        );
       case 3:
         return (
-          <Social setProgress={setProgress} form={form} setForm={setForm} />
+          <Social
+            setDisabled={setDisabled}
+            setProgress={setProgress}
+            form={form}
+            setForm={setForm}
+          />
         );
       case 4:
         return (
           <Identity
+            setDisabled={setDisabled}
             isMobile={isMobile}
             setProgress={setProgress}
             form={form}
@@ -150,32 +168,22 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
             setInfo={setInfo}
             application={application}
             setLoading={setLoading}
+            setLoadingValue={setLoadingValue}
           />
         );
       case 5:
         return (
-          <Employment setProgress={setProgress} form={form} setForm={setForm} />
-        );
-      case 6:
-        return (
-          <Financial
-            isMobile={isMobile}
-            setInfo={setInfo}
+          <Employment
+            setDisabled={setDisabled}
             setProgress={setProgress}
-            setForm={setForm}
             form={form}
+            setForm={setForm}
           />
         );
       default:
         return <Suspense />;
     }
   };
-  useLayoutEffect(() => {
-    window.addEventListener("resize", setWidth(window.innerWidth));
-    return () => {
-      window.addEventListener("resize", setWidth(window.innerWidth));
-    };
-  }, []);
   useEffect(() => {
     const localAgents = localStorage.getItem(BROWSER_ID);
     const agents = localAgents ? JSON.parse(localAgents) : [];
@@ -198,6 +206,11 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
       });
     }
   }, [application]);
+  useEffect(() => {
+    if (progress.total) {
+      navbar.current.scrollLeft = progress.total;
+    }
+  }, [progress.total]);
   return success ? (
     <Success form={form} setLoading={setLoading} />
   ) : (
@@ -216,30 +229,52 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
         </p>
       )}
       <nav
-        onTouchMove={(e) => console.log(e)}
+        ref={navbar}
         style={{
-          width: isMobile ? "200%" : "100%",
-          transition: "all 0.3s ease",
-          transform: isMobile ? `translateX(-${progress.total / 2}%)` : "",
+          overflow: isMobile ? "scroll" : "",
         }}
         aria-label="..."
       >
         <ul className="pagination pagination-lg shadow-lg">
           <li
             style={{
-              background: `linear-gradient(90deg, var(--keza-progress) ${progress.phone}%, var(--keza-white) ${progress.phone}%`,
+              background: `linear-gradient(90deg, var(--keza-progress) ${progress.personal}%, var(--keza-white) ${progress.personal}%`,
             }}
             onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
               setStep(1);
             }}
             className={`page-item ${step === 1 ? "active" : ""}`}
             aria-current="page"
+          >
+            <span className="report-item page-link">
+              <i className="bi bi-person"></i>
+              {!isMobile && "Personal"}
+            </span>
+          </li>
+          <li
+            style={{
+              background: `linear-gradient(90deg, var(--keza-progress) ${progress.phone}%, var(--keza-white) ${progress.phone}%`,
+            }}
+            onClick={() => {
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
+              setStep(2);
+            }}
+            className={`page-item ${step === 2 ? "active" : ""}`}
           >
             <span className="report-item page-link">
               <i className="bi bi-phone"></i>
@@ -248,35 +283,17 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
           </li>
           <li
             style={{
-              background: `linear-gradient(90deg, var(--keza-progress) ${progress.personal}%, var(--keza-white) ${progress.personal}%`,
-            }}
-            onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
-              setStep(2);
-            }}
-            className={`page-item ${step === 2 ? "active" : ""}`}
-          >
-            <span className="report-item page-link">
-              <i className="bi bi-person-circle"></i>
-              {!isMobile && "Personal"}
-            </span>
-          </li>
-          <li
-            style={{
               background: `linear-gradient(90deg, var(--keza-progress) ${progress.social}%, var(--keza-white) ${progress.social}%`,
             }}
             onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
               setStep(3);
             }}
             className={`page-item ${step === 3 ? "active" : ""}`}
@@ -291,12 +308,14 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
               background: `linear-gradient(90deg, var(--keza-progress) ${progress.identity}%, var(--keza-white) ${progress.identity}%`,
             }}
             onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
               setStep(4);
             }}
             className={`page-item ${step === 4 ? "active" : ""}`}
@@ -311,12 +330,14 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
               background: `linear-gradient(90deg, var(--keza-progress) ${progress.employment}%, var(--keza-white) ${progress.employment}%`,
             }}
             onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
               setStep(5);
             }}
             className={`page-item ${step === 5 ? "active" : ""}`}
@@ -324,26 +345,6 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
             <span className="report-item page-link">
               <i className="bi bi-briefcase"></i>
               {!isMobile && "Employment"}
-            </span>
-          </li>
-          <li
-            style={{
-              background: `linear-gradient(90deg, var(--keza-progress) ${progress.financial}%, var(--keza-white) ${progress.financial}%`,
-            }}
-            onClick={() => {
-              dispatch(
-                updateApplication({
-                  ...form,
-                  id: application !== null ? application.id : "",
-                })
-              );
-              setStep(6);
-            }}
-            className={`page-item ${step === 6 ? "active" : ""}`}
-          >
-            <span className="report-item page-link">
-              <i className="bi bi-credit-card-2-front"></i>
-              {!isMobile && "Financial"}
             </span>
           </li>
         </ul>
@@ -361,11 +362,20 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
             className={`${step < 2 ? "col-lg-12" : "col-lg-6"} order-lg-2 mb-3`}
           >
             <button
-              disabled={step === 6 && !form.bank.accountName}
+              disabled={disabled}
               className="btn btn-primary btn-get-started fw-bold"
-              onClick={() => (step > 5 ? handleSubmit() : nextStep())}
+              onClick={() => {
+                if (isMobile) {
+                  window.scrollTo({ top: 1 });
+                }
+                if (step > 4) {
+                  handleSubmit();
+                } else {
+                  nextStep();
+                }
+              }}
             >
-              {step > 5 ? "Submit" : "Next"}
+              {step > 4 ? "Submit" : "Next"}
             </button>
           </div>
           {step > 1 && (
@@ -376,7 +386,12 @@ const ApplicationForm = ({ report, setInfo, setLoading }) => {
                   color: "var(--keza-brown)",
                 }}
                 className="btn btn-get-started fw-bold"
-                onClick={() => previousStep()}
+                onClick={() => {
+                  if (isMobile) {
+                    window.scrollTo({ top: 1 });
+                  }
+                  previousStep();
+                }}
               >
                 Previous
               </button>

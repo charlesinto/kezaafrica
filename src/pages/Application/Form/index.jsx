@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { CircularProgress } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import ApplicationForm from "./Form";
+import { Progress } from "../../../components";
 const Form = ({ report }) => {
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingValue, setLoadingValue] = useState(0);
   return (
     <div id="apply" className="application-form">
       <div className="d-flex justify-content-center p-3">
@@ -23,27 +24,9 @@ const Form = ({ report }) => {
         report={report}
         setInfo={setInfo}
         setLoading={setLoading}
+        setLoadingValue={setLoadingValue}
       />
-      {loading && (
-        <>
-          <CircularProgress
-            style={{
-              position: "absolute",
-              bottom: "25%",
-              left: "50%",
-            }}
-          />
-          <div
-            style={{
-              opacity: "0.3",
-              height: " 95%",
-              width: "96%",
-              transform: "scale(2)",
-            }}
-            className="modal-backdrop fade show"
-          ></div>
-        </>
-      )}
+      {loading && <Progress value={loadingValue} />}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MenuItem, TextField, InputAdornment } from "@material-ui/core";
 import { useGlobalContext } from "../../../context/global";
 const statuses = [
@@ -16,7 +16,7 @@ const statuses = [
   },
 ];
 
-const Employment = ({ form, setForm, setProgress }) => {
+const Employment = ({ form, setForm, setProgress, setDisabled }) => {
   const { conveneNumber } = useGlobalContext();
   const handleChange = ({ target: { name, value } }) => {
     setForm((form) => {
@@ -42,6 +42,13 @@ const Employment = ({ form, setForm, setProgress }) => {
       };
     });
   };
+  useEffect(() => {
+    if (Object.values(form.employment).some((x) => x === "")) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [form, setDisabled]);
   return (
     <div data-aos="fade-in" className="mt-5">
       <div className="row align-items-center">
@@ -55,7 +62,7 @@ const Employment = ({ form, setForm, setProgress }) => {
               label="Employment Status"
               value={form.employment.status}
               onChange={(e) => {
-                handleProgress(25, 67.75);
+                handleProgress(25, 85);
                 handleChange(e);
               }}
             >
@@ -76,7 +83,7 @@ const Employment = ({ form, setForm, setProgress }) => {
               label="Company Name"
               value={form.employment.company}
               onChange={(e) => {
-                handleProgress(50, 71.75);
+                handleProgress(50, 90);
                 handleChange(e);
               }}
             />
@@ -93,7 +100,7 @@ const Employment = ({ form, setForm, setProgress }) => {
               label="Office Address"
               value={form.employment.address}
               onChange={(e) => {
-                handleProgress(75, 75.75);
+                handleProgress(75, 95);
                 handleChange(e);
               }}
             />
@@ -108,7 +115,7 @@ const Employment = ({ form, setForm, setProgress }) => {
               label="Monthly Income"
               value={form.employment.salary}
               onChange={(e) => {
-                handleProgress(100, 84);
+                handleProgress(100, 100);
                 handleChange(e);
               }}
               InputProps={{

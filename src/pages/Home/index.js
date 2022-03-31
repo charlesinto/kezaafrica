@@ -8,7 +8,7 @@ const HowItWorks = lazy(() => import("./components/HowItWorks"));
 const Calculator = lazy(() => import("./components/Calculator"));
 
 const FallBack = () => (
-  <main className="my-auto">
+  <main className="m-auto d-flex justify-content-center align-items-center">
     <CircularProgress />
   </main>
 );
@@ -32,7 +32,7 @@ const init = {
 };
 function Home() {
   return (
-    <Suspense fallback={FallBack}>
+    <Suspense fallback={<FallBack />}>
       <Hero />
       <main>
         <HowItWorks />

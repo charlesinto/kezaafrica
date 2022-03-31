@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
-const Social = ({ form, setForm, setProgress }) => {
+const Social = ({ form, setForm, setProgress, setDisabled }) => {
   const user = useSelector(({ user }) => user);
   const handleChange = ({ target: { name, value } }) => {
     setForm((details) => {
@@ -38,6 +38,13 @@ const Social = ({ form, setForm, setProgress }) => {
       });
     }
   }, [user, setForm]);
+  useEffect(() => {
+    if (Object.values(form.social).every((x) => x === "")) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [form, setDisabled]);
   return (
     <div data-aos="fade-in" className="mt-5">
       <p className="text-center fs-6">
@@ -54,7 +61,7 @@ const Social = ({ form, setForm, setProgress }) => {
               placeholder="Please enter your Facebook Handle"
               value={form.social.facebook}
               onChange={(e) => {
-                handleProgress(25, 36.75);
+                handleProgress(25, 45);
                 handleChange(e);
               }}
             />
@@ -70,7 +77,7 @@ const Social = ({ form, setForm, setProgress }) => {
               placeholder="Please enter your Twitter username"
               value={form.social.twitter}
               onChange={(e) => {
-                handleProgress(50, 40.75);
+                handleProgress(50, 50);
                 handleChange(e);
               }}
             />
@@ -88,7 +95,7 @@ const Social = ({ form, setForm, setProgress }) => {
               placeholder="Please enter your Instagram username"
               value={form.social.instagram}
               onChange={(e) => {
-                handleProgress(75, 44.75);
+                handleProgress(75, 55);
                 handleChange(e);
               }}
             />
@@ -104,7 +111,7 @@ const Social = ({ form, setForm, setProgress }) => {
               placeholder="Please enter your Linkedin Handle"
               value={form.social.linkedin}
               onChange={(e) => {
-                handleProgress(100, 47.75);
+                handleProgress(100, 60);
                 handleChange(e);
               }}
             />

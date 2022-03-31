@@ -30,9 +30,10 @@ export const initiateApplication = (form) => async (dispatch) => {
 };
 
 export const uploadApplicationFile =
-  (form, proceedAction, setInfo, setLoading) => async (dispatch) => {
+  (form, proceedAction, setInfo, setLoading, setLoadingValue) =>
+  async (dispatch) => {
     try {
-      const { data } = await api.uploadApplicationFile(form);
+      const { data } = await api.uploadApplicationFile(form, setLoadingValue);
       if (data.ok) {
         dispatch({
           type: constants.UPLOAD_APPLICATION_FILE,

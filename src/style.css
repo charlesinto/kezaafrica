@@ -889,7 +889,7 @@ section {
 }
 @media screen and (min-width: 1350px) {
   .application-form .page-link {
-    padding: 0.75rem 2.5vw !important;
+    padding: 0.75rem 4vw !important;
   }
 }
 
