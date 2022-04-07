@@ -178,7 +178,7 @@ const CalculatorForm = ({
                                 )
                             )
                             .map((p) => p.name)
-                        : products
+                        : products.map((p) => p.name)
                       : []
                   }
                   value={form.product.name}

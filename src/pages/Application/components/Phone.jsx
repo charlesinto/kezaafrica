@@ -213,7 +213,7 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
                             )
                         )
                         .map((p) => p.name)
-                    : products
+                    : products.map((p) => p.name)
                   : []
               }
               value={form.report.product.name}
