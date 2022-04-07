@@ -24,11 +24,25 @@ const CalculatorForm = ({
       ? products.find((p) => p.name === form.product.name)
       : null;
   const productPrice = product
-    ? product.rates
-      ? form.product.rom
+    ? form.product.rom
+      ? product.rates
         ? product.rates.find((rate) => rate.storage === form.product.rom)
           ? product.rates.find((rate) => rate.storage === form.product.rom)
               .price
+          : form.product.condition
+          ? product.meta.conditions
+            ? product.meta.conditions.find(
+                (con) => con.price && con.type === form.product.condition
+              )
+              ? product.meta.conditions.find(
+                  (con) => con.type === form.product.condition
+                ).price
+              : product.meta.price.min === product.meta.price.max
+              ? product.meta.price.min
+              : (product.meta.price.min + product.meta.price.max) / 2
+            : product.meta.price.min === product.meta.price.max
+            ? product.meta.price.min
+            : (product.meta.price.min + product.meta.price.max) / 2
           : product.meta.price.min === product.meta.price.max
           ? product.meta.price.min
           : (product.meta.price.min + product.meta.price.max) / 2
@@ -150,23 +164,21 @@ const CalculatorForm = ({
                 <Autocomplete
                   options={
                     products.length > 1
-                      ? form.product.condition === "old"
+                      ? form.product.condition
                         ? products
                             .filter(
                               (p) =>
                                 p.meta.price.min !== 123456 &&
                                 p.meta.price.max !== 123456 &&
                                 p.meta.conditions &&
-                                p.meta.conditions.length > 1
+                                p.meta.conditions.find(
+                                  (con) =>
+                                    con.type.trim() ===
+                                    form.product.condition.trim()
+                                )
                             )
                             .map((p) => p.name)
                         : products
-                            .filter(
-                              (p) =>
-                                p.meta.price.min !== 123456 &&
-                                p.meta.price.max !== 123456
-                            )
-                            .map((p) => p.name)
                       : []
                   }
                   value={form.product.name}
