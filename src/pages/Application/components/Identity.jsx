@@ -107,7 +107,7 @@ const Identity = ({
   }, [application]);
   useEffect(() => {
     const bvnInput = window.document.querySelector("#bvn");
-    bvnInput.setAttribute("maxlength", "10");
+    bvnInput.setAttribute("maxlength", "11");
   }, []);
   useEffect(() => {
     if (
@@ -146,16 +146,51 @@ const Identity = ({
         </div>
         <div className="col-xl-6">
           <div className="form-group mb-5">
-            <TextField
-              id="bvn"
-              required
+            <label className="form-label fs-5" htmlFor="id">
+              Please upload your valid means of Identification *
+            </label>
+            <Button
               fullWidth
-              name="bvn"
-              label="Bank Verification Number"
-              value={form.identity.bvn}
+              style={{
+                borderRadius: "1em",
+                display: newFile || file ? "flex" : "",
+                justifyContent: newFile || file ? "space-between" : "",
+              }}
+              variant="outlined"
+            >
+              <span
+                onClick={() => {
+                  handleProgress(100, 80);
+                  inputRef.current.click();
+                }}
+              >
+                {file
+                  ? file.name
+                  : newFile
+                  ? newFile.name
+                  : "PDF, DOCX, PNG, e.t.c"}
+              </span>
+              {(newFile || file) && (
+                <i
+                  className="bi bi-x-circle"
+                  style={{
+                    transform: "scale(2)",
+                    color: "var(--keza-brown)",
+                  }}
+                  onClick={() => {
+                    setFile(null);
+                    setNewFile(null);
+                  }}
+                ></i>
+              )}
+            </Button>
+            <input
+              ref={inputRef}
+              hidden
+              type="file"
+              multiple={false}
               onChange={(e) => {
-                handleProgress(66, 72);
-                handleChange(e);
+                setFile(e.target.files[0]);
               }}
             />
           </div>
@@ -163,51 +198,16 @@ const Identity = ({
       </div>
       <div className="d-flex justify-content-center">
         <div className={`form-group mb-5 ${isMobile ? "w-100" : "w-50"}`}>
-          <label className="form-label fs-5" htmlFor="id">
-            Please upload your valid means of Identification *
-          </label>
-          <Button
+          <TextField
+            id="bvn"
+            required
             fullWidth
-            style={{
-              borderRadius: "1em",
-              display: newFile || file ? "flex" : "",
-              justifyContent: newFile || file ? "space-between" : "",
-            }}
-            variant="outlined"
-          >
-            <span
-              onClick={() => {
-                handleProgress(100, 80);
-                inputRef.current.click();
-              }}
-            >
-              {file
-                ? file.name
-                : newFile
-                ? newFile.name
-                : "PDF, DOCX, PNG, e.t.c"}
-            </span>
-            {(newFile || file) && (
-              <i
-                className="bi bi-x-circle"
-                style={{
-                  transform: "scale(2)",
-                  color: "var(--keza-brown)",
-                }}
-                onClick={() => {
-                  setFile(null);
-                  setNewFile(null);
-                }}
-              ></i>
-            )}
-          </Button>
-          <input
-            ref={inputRef}
-            hidden
-            type="file"
-            multiple={false}
+            name="bvn"
+            label="Bank Verification Number"
+            value={form.identity.bvn}
             onChange={(e) => {
-              setFile(e.target.files[0]);
+              handleProgress(66, 72);
+              handleChange(e);
             }}
           />
         </div>

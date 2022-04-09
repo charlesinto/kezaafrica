@@ -59,6 +59,19 @@ const OtpInput = ({ digits, onChange }) => {
           refs.find((ref) => ref.key === previousIndex)?.ref?.current.focus();
     }
   };
+  const handlePaste = (event) => {
+    // Stop data actually being pasted into div
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Get pasted data via clipboard API
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const pastedData = clipboardData.getData("Text");
+    if (!isNaN(pastedData)) {
+      setPin(pastedData);
+    }
+  };
+
   useEffect(() => {
     if (digits && pin.length === digits) {
       if (focuses.every((focus) => focus.filled === true)) {
@@ -73,6 +86,7 @@ const OtpInput = ({ digits, onChange }) => {
         return (
           <input
             key={i}
+            onPaste={(e) => i === 0 && handlePaste(e)}
             className="form-control"
             maxLength={1}
             autoFocus={i === 0}
@@ -81,6 +95,7 @@ const OtpInput = ({ digits, onChange }) => {
                 ? focuses.find((focus) => focus.key === i).state
                 : undefined
             }
+            value={pin.at(i)}
             onFocus={() => handleFocus(i)}
             onBlur={() => handleBlur(i)}
             ref={generateRef(i)}

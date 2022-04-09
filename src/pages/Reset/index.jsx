@@ -88,12 +88,18 @@ const ResetPassword = () => {
               </div>
               <div className="bg-white shadow border-0 rounded p-4 p-lg-5 w-100 fmxw-500">
                 {!isVerified ? (
-                  <>
+                  <div className="d-flex justify-content-center flex-column align-items-center">
                     <h1 className="h3 mb-4 text-center">What's your Code?</h1>
                     <p className="fs-6 text-center">
                       Please enter the OTP Code that was sent to you via email
                     </p>
-                    <OtpInput digits={5} onChange={handleVerifyOtp} />
+                    <div
+                      className={`d-flex justify-content-center ${
+                        window.innerWidth > 991 ? "w-50" : "w-100"
+                      }`}
+                    >
+                      <OtpInput digits={5} onChange={handleVerifyOtp} />
+                    </div>
                     <div className="d-flex flex-column align-items-center justify-content-center">
                       <p className="text-grey">Didn't receive a code?</p>
                       <span
@@ -111,7 +117,7 @@ const ResetPassword = () => {
                           }:${timer % 60 < 10 ? `0${timer % 60}` : timer % 60}`}
                       </span>
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <>
                     <h1 className="h3 mb-4 text-center">Reset password</h1>
