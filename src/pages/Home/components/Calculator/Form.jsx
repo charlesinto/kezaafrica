@@ -24,19 +24,32 @@ const CalculatorForm = ({
       ? products.find((p) => p.name === form.product.name)
       : null;
   const productPrice = product
-    ? form.product.rom
-      ? product.rates
-        ? product.rates.find((rate) => rate.storage === form.product.rom)
-          ? product.rates.find((rate) => rate.storage === form.product.rom)
-              .price
-          : form.product.condition
-          ? product.meta.conditions
+    ? form.product.condition
+      ? product.meta.conditions
+        ? product.meta.conditions.find(
+            (con) => con.price && con.type === form.product.condition
+          )
+          ? product.meta.conditions.find(
+              (con) => con.type === form.product.condition
+            ).price
             ? product.meta.conditions.find(
-                (con) => con.price && con.type === form.product.condition
-              )
-              ? product.meta.conditions.find(
-                  (con) => con.type === form.product.condition
-                ).price
+                (con) => con.type === form.product.condition
+              ).price
+            : form.product.rom
+            ? product.rates
+              ? product.rates.find((rate) => rate.storage === form.product.rom)
+                ? product.rates.find(
+                    (rate) => rate.storage === form.product.rom
+                  ).price
+                  ? product.rates.find(
+                      (rate) => rate.storage === form.product.rom
+                    ).price
+                  : product.meta.price.min === product.meta.price.max
+                  ? product.meta.price.min
+                  : (product.meta.price.min + product.meta.price.max) / 2
+                : product.meta.price.min === product.meta.price.max
+                ? product.meta.price.min
+                : (product.meta.price.min + product.meta.price.max) / 2
               : product.meta.price.min === product.meta.price.max
               ? product.meta.price.min
               : (product.meta.price.min + product.meta.price.max) / 2

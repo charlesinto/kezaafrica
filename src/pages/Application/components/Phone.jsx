@@ -74,20 +74,34 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
       ? products.find((p) => p.name === form.report.product.name)
       : null;
   const productPrice = product
-    ? form.report.product.rom
-      ? product.rates
-        ? product.rates.find((rate) => rate.storage === form.report.product.rom)
-          ? product.rates.find(
-              (rate) => rate.storage === form.report.product.rom
+    ? form.report.product.condition
+      ? product.meta.conditions
+        ? product.meta.conditions.find(
+            (con) => con.price && con.type === form.report.product.condition
+          )
+          ? product.meta.conditions.find(
+              (con) => con.type === form.report.product.condition
             ).price
-          : form.report.product.condition
-          ? product.meta.conditions
             ? product.meta.conditions.find(
-                (con) => con.price && con.type === form.report.product.condition
-              )
-              ? product.meta.conditions.find(
-                  (con) => con.type === form.report.product.condition
-                ).price
+                (con) => con.type === form.report.product.condition
+              ).price
+            : form.report.product.rom
+            ? product.rates
+              ? product.rates.find(
+                  (rate) => rate.storage === form.report.product.rom
+                )
+                ? product.rates.find(
+                    (rate) => rate.storage === form.report.product.rom
+                  ).price
+                  ? product.rates.find(
+                      (rate) => rate.storage === form.report.product.rom
+                    ).price
+                  : product.meta.price.min === product.meta.price.max
+                  ? product.meta.price.min
+                  : (product.meta.price.min + product.meta.price.max) / 2
+                : product.meta.price.min === product.meta.price.max
+                ? product.meta.price.min
+                : (product.meta.price.min + product.meta.price.max) / 2
               : product.meta.price.min === product.meta.price.max
               ? product.meta.price.min
               : (product.meta.price.min + product.meta.price.max) / 2
