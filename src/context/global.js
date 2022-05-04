@@ -14,7 +14,7 @@ export default function GlobalWrapper({ children }) {
       ? "https://kezaafrica.herokuapp.com/v1"
       : "http://localhost:5000/v1";
   const key =
-    process.env.REACT_APP_MONO_PUBLIC_KEY || "test_pk_pFD3ozQvEqK5KgBBWrjm";
+    process.env.REACT_APP_MONO_PUBLIC_KEY || "live_pk_WTmkgxtGC4D7GOI3OrYi";
   const conveneNumber = Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "NGN",

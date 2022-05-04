@@ -28,22 +28,25 @@ export const getUserApplications = (id, setIsLoaded) => async (dispatch) => {
   }
 };
 
-export const connectMono = (form, setInfo, setLoading) => async (dispatch) => {
-  try {
-    const { data } = await api.connectMono(form);
-    if (data.ok) {
+export const connectMono =
+  (form, setInfo, setLoading, setProgress) => async (dispatch) => {
+    try {
+      const { data } = await api.connectMono(form);
+      if (data.ok) {
+        setLoading(false);
+        dispatch({ type: constants.CONNECT_MONO, data: data.data });
+        setInfo({ message: data.message, status: "success" });
+        if (setProgress)
+          setProgress((state) => ({ ...state, bankStatement: 100 }));
+      }
+    } catch ({ response, message }) {
       setLoading(false);
-      dispatch({ type: constants.CONNECT_MONO, data: data.data });
-      setInfo({ message: data.message, status: "success" });
+      setInfo({
+        message: response ? response.data.message : message,
+        status: "error",
+      });
     }
-  } catch ({ response, message }) {
-    setLoading(false);
-    setInfo({
-      message: response ? response.data.message : message,
-      status: "error",
-    });
-  }
-};
+  };
 
 export const updateUser = (form, setInfo, setLoading) => async (dispatch) => {
   try {

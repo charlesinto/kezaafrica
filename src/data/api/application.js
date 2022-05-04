@@ -3,7 +3,8 @@ import { ACCESS_TOKEN } from "../constants";
 const APP_URI =
   process.env.NODE_ENV === "production"
     ? "https://kezaafrica.herokuapp.com/v1"
-    : "http://localhost:5000/v1";
+    : // : "http://localhost:5000/v1";
+      "http://localhost:3003/v1";
 
 const api = axios.create({ baseURL: `${APP_URI}/applications/` });
 

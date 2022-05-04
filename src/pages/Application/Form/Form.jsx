@@ -17,6 +17,8 @@ import {
   updateApplication,
 } from "../../../data/actions/application";
 import { useGlobalContext } from "../../../context/global";
+import BankStatement from "../components/BankStatement";
+import { useModal } from "../../../hooks";
 const init = {
   personal: {
     firstName: "",
@@ -55,6 +57,7 @@ const init = {
 const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
   const { conveneNumber } = useGlobalContext();
   const dispatch = useDispatch();
+  const modal = useModal();
   const navbar = useRef();
   const application = useSelector(({ application }) => application);
   const [disabled, setDisabled] = useState(false);
@@ -73,6 +76,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
     employment: 0,
     financial: 0,
     total: 0,
+    bankStatement: 0,
   });
   const isMobile = window.innerWidth <= 991;
   const nextStep = () => {
@@ -95,6 +99,13 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
     }
   };
   const handleSubmit = () => {
+    if (progress.bankStatement !== 100) {
+      setStep(6);
+      return modal.setToast({
+        title: "Please connect with Mono and upload statement",
+        icon: "info",
+      });
+    }
     setLoading(true);
     if (application && application.id) {
       dispatch(
@@ -127,6 +138,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
       );
     }
   };
+
   const returnStep = () => {
     switch (step) {
       case 1:
@@ -180,6 +192,15 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
             setForm={setForm}
           />
         );
+      case 6:
+        return (
+          <BankStatement
+            setDisabled={setDisabled}
+            setProgress={setProgress}
+            form={form}
+            setForm={setForm}
+          />
+        );
       default:
         return <Suspense />;
     }
@@ -191,6 +212,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
       dispatch(getApplication(agents[0].agent));
     }
   }, [dispatch]);
+
   useEffect(() => {
     if (application) {
       setIsExecuted(true);
@@ -347,6 +369,28 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
               {!isMobile && "Employment"}
             </span>
           </li>
+          <li
+            style={{
+              background: `linear-gradient(90deg, var(--keza-progress) ${progress.bankStatement}%, var(--keza-white) ${progress.bankStatement}%`,
+            }}
+            onClick={() => {
+              if (application && application.id) {
+                dispatch(
+                  updateApplication({
+                    ...form,
+                    id: application.id,
+                  })
+                );
+              }
+              setStep(6);
+            }}
+            className={`page-item ${step === 6 ? "active" : ""}`}
+          >
+            <span className="report-item page-link">
+              <i className="bi bi-briefcase"></i>
+              {!isMobile && "Statement"}
+            </span>
+          </li>
         </ul>
       </nav>
       <div className="w-100">{returnStep()}</div>
@@ -368,14 +412,14 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
                 if (isMobile) {
                   window.scrollTo({ top: 1 });
                 }
-                if (step > 4) {
+                if (step > 5) {
                   handleSubmit();
                 } else {
                   nextStep();
                 }
               }}
             >
-              {step > 4 ? "Submit" : "Next"}
+              {step > 5 ? "Submit" : "Next"}
             </button>
           </div>
           {step > 1 && (

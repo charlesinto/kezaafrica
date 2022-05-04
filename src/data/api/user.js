@@ -1,10 +1,11 @@
 import axios from "axios";
 import { ACCESS_TOKEN } from "../constants";
 import applicationsApi from "../api/application";
-const APP_URI =
+export const APP_URI =
   process.env.NODE_ENV === "production"
     ? "https://kezaafrica.herokuapp.com/v1"
-    : "http://localhost:5000/v1";
+    : // : "http://localhost:5000/v1";
+      "http://localhost:3003/v1";
 
 const api = axios.create({ baseURL: `${APP_URI}/users/` });
 
