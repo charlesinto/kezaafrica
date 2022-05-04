@@ -42,7 +42,7 @@ const BankStatement = ({ form, setForm, setProgress }) => {
         className="btn btn-primary btn-get-started"
         onClick={() => mono.open()}
       >
-        Connect With Mono
+        Connect Bank Statement
       </button>
     </div>
   );
