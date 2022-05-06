@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 import MonoConnect from "@mono.co/connect.js";
 import { useDispatch } from "react-redux";
-import { connectMono } from "../../../data/actions/user";
+import {
+  connectMono,
+  connectMonoNonAuthenticatedUsers,
+} from "../../../data/actions/user";
 import { useGlobalContext } from "../../../context/global";
 
 const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
@@ -21,7 +24,7 @@ const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
 
         console.log("called oooo: ", monoForm);
         dispatch(
-          connectMono(
+          connectMonoNonAuthenticatedUsers(
             monoForm,
             () => {},
             () => {},

@@ -35,9 +35,28 @@ export const connectMono =
       if (data.ok) {
         setLoading(false);
         dispatch({ type: constants.CONNECT_MONO, data: data.data });
-        setInfo({ message: data.message, status: "success" });
-        if (setProgress)
+
+        if (setProgress) {
           setProgress((state) => ({ ...state, bankStatement: 100 }));
+        } else {
+          setInfo({ message: data.message, status: "success" });
+        }
+      }
+    } catch ({ response, message }) {
+      setLoading(false);
+      setInfo({
+        message: response ? response.data.message : message,
+        status: "error",
+      });
+    }
+  };
+
+export const connectMonoNonAuthenticatedUsers =
+  (form, setInfo, setLoading, setProgress) => async (dispatch) => {
+    try {
+      const { data } = await api.connectMono(form);
+      if (data.ok) {
+        setProgress((state) => ({ ...state, bankStatement: 100 }));
       }
     } catch ({ response, message }) {
       setLoading(false);
