@@ -153,9 +153,9 @@ const Header = () => {
                 >
                   <Avatar
                     style={{ background: "var(--keza-brown)" }}
-                    alt={`${user.name.firstName} ${user.name.lastName}`}
+                    alt={`${user?.name?.firstName} ${user?.name?.lastName}`}
                   >
-                    {user.name.firstName.substr(0, 1).toUpperCase()}
+                    {user?.name?.firstName?.substr(0, 1).toUpperCase()}
                   </Avatar>
                   <span
                     style={{ color: "var(--keza-secondary)" }}
