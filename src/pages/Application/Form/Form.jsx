@@ -219,7 +219,6 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
 
   useEffect(() => {
     if (progress.bankStatement === 100) {
-      modal.setToast("Bank statement connected successfully", "success", "top");
       setDisabledMonoButton(true);
     }
   }, [progress.bankStatement, modal]);
