@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import MonoConnect from "@mono.co/connect.js";
 import { useDispatch } from "react-redux";
 import { connectMonoNonAuthenticatedUsers } from "../../../data/actions/user";
