@@ -107,6 +107,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
       });
     }
     setLoading(true);
+    console.log("application: ", application);
     if (application && application.id) {
       dispatch(
         updateApplication(
