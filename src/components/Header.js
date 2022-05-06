@@ -166,7 +166,7 @@ const Header = () => {
                   <div className="d-flex justify-content-center">
                     <ul className="dropdown-menu-end dropdown-menu-arrow profile list-unstyled w-100">
                       <li className="dropdown-header">
-                        <h6 className="user-name">{`${user.name.firstName} ${user.name.lastName}`}</h6>
+                        <h6 className="user-name">{`${user?.name?.firstName} ${user?.name?.lastName}`}</h6>
                       </li>
                       <li>
                         <hr className="dropdown-divider" />
