@@ -80,6 +80,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
   });
   const isMobile = window.innerWidth <= 991;
   const nextStep = () => {
+    console.log("icalled");
     setStep((step) => {
       if (step === 1 && !isExecuted) {
         dispatch(initiateApplication(form));
@@ -118,7 +119,6 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
           setLoading
         )
       );
-    } else {
       dispatch(
         createApplication(
           { ...form, id: application !== null ? application.id : "" },
