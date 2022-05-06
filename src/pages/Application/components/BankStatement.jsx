@@ -1,10 +1,7 @@
 import { useMemo, useState } from "react";
 import MonoConnect from "@mono.co/connect.js";
 import { useDispatch } from "react-redux";
-import {
-  connectMono,
-  connectMonoNonAuthenticatedUsers,
-} from "../../../data/actions/user";
+import { connectMonoNonAuthenticatedUsers } from "../../../data/actions/user";
 import { useGlobalContext } from "../../../context/global";
 
 const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
