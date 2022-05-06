@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { connectMono } from "../../../data/actions/user";
 import { useGlobalContext } from "../../../context/global";
 
-const BankStatement = ({ form, setForm, setProgress }) => {
+const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { key } = useGlobalContext();
@@ -16,7 +16,7 @@ const BankStatement = ({ form, setForm, setProgress }) => {
         setLoading(true);
         const monoForm = {
           code,
-          email: "",
+          email: form?.personal?.email,
         };
 
         console.log("called oooo: ", monoForm);
@@ -35,12 +35,13 @@ const BankStatement = ({ form, setForm, setProgress }) => {
     });
     instance.setup();
     return instance;
-  }, [dispatch, setLoading, key, setProgress]);
+  }, [dispatch, setLoading, key, setProgress, form?.personal?.email]);
   return (
     <div className="d-flex justify-content-center">
       <button
         className="btn btn-primary btn-get-started"
         onClick={() => mono.open()}
+        disabled={isDisabled}
       >
         Connect Bank Statement
       </button>

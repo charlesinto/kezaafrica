@@ -199,19 +199,30 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
             setProgress={setProgress}
             form={form}
             setForm={setForm}
+            isDisabled={disableMonoButton}
           />
         );
       default:
         return <Suspense />;
     }
   };
+
+  const [disableMonoButton, setDisabledMonoButton] = useState(false);
   useEffect(() => {
     const localAgents = localStorage.getItem(BROWSER_ID);
     const agents = localAgents ? JSON.parse(localAgents) : [];
+
     if (agents.length > 0) {
       dispatch(getApplication(agents[0].agent));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (progress.bankStatement === 100) {
+      modal.setToast("Bank statement connected successfully", "success", "top");
+      setDisabledMonoButton(true);
+    }
+  }, [progress.bankStatement, modal]);
 
   useEffect(() => {
     if (application) {

@@ -4,6 +4,7 @@ import * as constants from "../constants/application";
 export const getApplication = (agent) => async (dispatch) => {
   try {
     const { data } = await api.getApplication(agent);
+    console.log("data: ", data, "agent: ", agent);
     if (data.ok) {
       dispatch({
         type: constants.FETCH_APPLICATION,
