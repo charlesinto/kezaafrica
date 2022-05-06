@@ -202,6 +202,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
             form={form}
             setForm={setForm}
             isDisabled={disableMonoButton}
+            setLoading={setLoading}
           />
         );
       default:

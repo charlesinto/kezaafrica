@@ -54,7 +54,9 @@ export const connectMono =
 export const connectMonoNonAuthenticatedUsers =
   (form, setInfo, setLoading, setProgress) => async (dispatch) => {
     try {
+      setLoading(true);
       const { data } = await api.connectMono(form);
+      setLoading(false);
       if (data.ok) {
         setProgress((state) => ({ ...state, bankStatement: 100 }));
       }

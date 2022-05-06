@@ -4,16 +4,20 @@ import { useDispatch } from "react-redux";
 import { connectMonoNonAuthenticatedUsers } from "../../../data/actions/user";
 import { useGlobalContext } from "../../../context/global";
 
-const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
+const BankStatement = ({
+  form,
+  setForm,
+  setProgress,
+  isDisabled,
+  setLoading,
+}) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const { key } = useGlobalContext();
-  console.log("key::: ", key, loading);
+  console.log("key::: ", key);
   const mono = useMemo(() => {
     const instance = new MonoConnect({
       key,
       onSuccess: ({ code }) => {
-        setLoading(true);
         const monoForm = {
           code,
           email: form?.personal?.email,
@@ -24,7 +28,7 @@ const BankStatement = ({ form, setForm, setProgress, isDisabled }) => {
           connectMonoNonAuthenticatedUsers(
             monoForm,
             () => {},
-            () => {},
+            setLoading,
             setProgress
           )
         );
