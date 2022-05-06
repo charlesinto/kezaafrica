@@ -118,6 +118,7 @@ const ApplicationForm = ({ report, setInfo, setLoading, setLoadingValue }) => {
           setLoading
         )
       );
+    } else {
       dispatch(
         createApplication(
           { ...form, id: application !== null ? application.id : "" },
