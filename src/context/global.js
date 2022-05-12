@@ -23,6 +23,8 @@ export default function GlobalWrapper({ children }) {
       : process.env.REACT_APP_ENVIRONMENT === "staging"
       ? process.env.REACT_APP_MONO_PUBLIC_KEY_TEST
       : "live_pk_WTmkgxtGC4D7GOI3OrYi";
+
+  console.log("key: ", key);
   const conveneNumber = Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "NGN",
