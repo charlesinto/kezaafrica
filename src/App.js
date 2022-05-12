@@ -13,6 +13,7 @@ import {
   Reset,
 } from "./pages";
 const App = () => {
+  console.log("env: ", process.env.REACT_APP_ENVIRONMENT);
   return (
     <Router>
       <Wrapper>
