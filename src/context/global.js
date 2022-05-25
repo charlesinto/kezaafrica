@@ -22,7 +22,7 @@ export default function GlobalWrapper({ children }) {
       ? process.env.REACT_APP_MONO_PUBLIC_KEY
       : process.env.REACT_APP_ENVIRONMENT === "staging"
       ? process.env.REACT_APP_MONO_PUBLIC_KEY_TEST
-      : "live_pk_WTmkgxtGC4D7GOI3OrYi";
+      : process.env.REACT_APP_MONO_PUBLIC_KEY_TEST;
 
   console.log("key: ", key);
   const conveneNumber = Intl.NumberFormat(undefined, {
