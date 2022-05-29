@@ -24,7 +24,6 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
       .get(`${APP_URI}/products/without-images`)
       .then((res) => {
         if (res.data.ok) {
-          console.log("prod: ", res.data.data?.length);
           setProducts(res.data.data);
         }
       })
@@ -75,7 +74,6 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
       ? products.find((p) => p.name === form.report.product.name)
       : null;
 
-  console.log("product: ", product);
   const productPrice = product
     ? form.report.product.condition
       ? product.meta.conditions
