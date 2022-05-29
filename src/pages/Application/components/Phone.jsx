@@ -19,11 +19,12 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
       };
     });
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     axios
       .get(`${APP_URI}/products/without-images`)
       .then((res) => {
         if (res.data.ok) {
+          console.log("prod: ", res.data.data?.length);
           setProducts(res.data.data);
         }
       })
@@ -73,6 +74,8 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
     products.length > 1 && form.report.product.name
       ? products.find((p) => p.name === form.report.product.name)
       : null;
+
+  console.log("product: ", product);
   const productPrice = product
     ? form.report.product.condition
       ? product.meta.conditions
@@ -215,17 +218,17 @@ const Phone = ({ form, setInfo, setForm, setProgress, setDisabled }) => {
                 products.length > 1
                   ? form.report.product.condition
                     ? products
-                        .filter(
-                          (p) =>
-                            p.meta.price.min !== 123456 &&
-                            p.meta.price.max !== 123456 &&
-                            p.meta.conditions &&
-                            p.meta.conditions.find(
-                              (con) =>
-                                con.type.trim() ===
-                                form.report.product.condition.trim()
-                            )
-                        )
+                        // .filter(
+                        //   (p) =>
+                        //     p.meta.price.min !== 123456 &&
+                        //     p.meta.price.max !== 123456 &&
+                        //     p.meta.conditions &&
+                        //     p.meta.conditions.find(
+                        //       (con) =>
+                        //         con.type.trim() ===
+                        //         form.report.product.condition.trim()
+                        //     )
+                        // )
                         .map((p) => p.name)
                     : products.map((p) => p.name)
                   : []
