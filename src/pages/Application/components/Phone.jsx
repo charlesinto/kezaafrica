@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MenuItem, TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { useGlobalContext } from "../../../context/global";
